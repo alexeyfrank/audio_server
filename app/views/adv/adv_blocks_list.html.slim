@@ -1,0 +1,24 @@
+div.accordion#accordion2
+  - @days.each_with_index do |day, i|
+    .accordion-group.day-accordion-group
+
+      .accordion-heading.day-heading
+        a.accordion-toggle data-toggle="collapse" href="#c_#{ i }"
+          = day[:title]
+
+      .accordion-body id="c_#{ i }"
+        .accordion-inner.day-accordion-inner
+          - day[:blocks].each_with_index do |block, j|
+            .accordion
+              .accordion-group
+                .accordion-heading.block-heading
+                  a.accordion-toggle data-toggle="collapse" href="#c_#{ i }_#{ j }" #{ (j + 1) } рекламный блок
+
+                .accordion-body id="c_#{ i }_#{ j }"
+                  .accordion-inner.tracks-accordion.jstree-drop
+                    ul.accordion-list.tracks-list data-path="#{ path_to_adv_block_file(@adv_blocks_path, day[:name], j, @adv_block_ext) }"
+                      - block[:files].each_with_index do |file, k|
+                        li
+                          = file[:name]
+                          a.remove-track-from-adv-block href="#" data-path=file[:path]
+                            i.icon-remove style="float:right"

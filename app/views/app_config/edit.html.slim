@@ -1,0 +1,39 @@
+h2 Редактирование настроек
+
+- if @msg
+  h4
+    = @msg
+
+
+= form_for @conf, :url => '/config/save', :html => { :class => 'form-horizontal' } do |f|
+ .control-group
+   = f.label :mode, 'Режим для новых файлов и папок', :class => 'control-label'
+   .controls
+        = f.text_field :mode, :class => 'span6', :disabled => true
+ .control-group
+   = f.label :owner_member, 'Владелец файлов и папок', :class => 'control-label'
+   .controls
+        = f.text_field :owner_member, :class => 'span6'
+ .control-group
+   = f.label :owner_group, 'Группа владельца', :class => 'control-label'
+   .controls
+        = f.text_field :owner_group, :class => 'span6'
+ .control-group
+   = f.label :dropbox_path, 'Путь к папке дропбокса', :class => 'control-label'
+   .controls
+        = f.text_field :dropbox_path, :class => 'span6'
+ .control-group
+   = f.label :dropbox_log_path, 'Путь к папке логов', :class => 'control-label'
+   .controls
+        = f.text_field :dropbox_log_path, :class => 'span6', :disabled => true
+ .control-group
+   = f.label :dropbox_music_path, 'Путь к папке музыки', :class => 'control-label'
+   .controls
+        = f.text_field :dropbox_music_path, :class => 'span6', :disabled => true
+ .control-group
+   = f.label :dropbox_adv_path, 'Путь к папке рекламы', :class => 'control-label'
+   .controls
+        = f.text_field :dropbox_adv_path, :class => 'span6', :disabled => true
+
+ .form-actions
+   input.btn.btn-primary type='submit' value='Сохранить изменения'

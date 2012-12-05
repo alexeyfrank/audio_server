@@ -1,0 +1,60 @@
+.span4
+  h4 Реклама
+  a#create-folder-btn.btn Создать папку
+  a#add-files-btn.btn Загрузить файлы
+  hr
+  #file-tree.jstree-apple
+
+.span4#blocks-box
+   | <div class="accordion" id="accordion2">
+              <div class="accordion-group">
+                <div class="accordion-heading">
+                  <a class="accordion-toggle" data-toggle="collapse" href="#collapse_1">
+                    Click me to exapand.
+                  </a>
+                </div>
+                <div id="collapse_1" class="accordion-body">
+                  <div class="accordion-inner">
+                    <div class="accordion">
+                      <div class="accordion-group">
+                                    <div class="accordion-heading">
+                                      <a class="accordion-toggle" data-toggle="collapse" href="#collapse_1_1">
+                                       Click me to exapand.
+                                      </a>
+                                    </div>
+                                    <div id="collapse_1_1" class="accordion-body">
+                                      <div class="accordion-inner">
+                                       </div>
+                                    </div>
+                                  </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-group">
+                <div class="accordion-heading">
+                  <a class="accordion-toggle" data-toggle="collapse" href="#collapse_2">
+                   Click me to exapand.
+                  </a>
+                </div>
+                <div id="collapse_2" class="accordion-body">
+                  <div class="accordion-inner">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+#add-files-modal.modal.hide tabindex="-1" role="dialog" aria-hidden="true" width="940"
+  /= form_tag(filemanager_create_folder_path, :class => 'form-horizontal') do
+  /  = hidden_field_tag :base
+  .modal-header
+    button.close type="button" data-dismiss="modal" aria-hidden="true" ×
+    h4 Добавление файлов
+
+  .modal-body
+
+  .modal-footer
+    button.btn data-dismiss="modal" aria-hidden="true" Закрыть
+    /button.btn.btn-primary Создать

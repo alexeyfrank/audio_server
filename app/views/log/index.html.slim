@@ -1,0 +1,14 @@
+h1 Мониторинг магазинов
+
+table.table.table-bordered.table-hover
+  thead
+    tr
+      th Адрес
+      th Дата обновления
+      th
+  tbody
+    - @logs.each do |l|
+      tr
+        td = l.address
+        td = l.date
+        th = link_to("Детали", { :action => :show, :filename => l.filename }, { :class => 'btn btn-info' })

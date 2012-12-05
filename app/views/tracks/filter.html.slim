@@ -1,0 +1,127 @@
+h1 Просмотр аудио
+h4 Тип: #{ @audio_types.select {|i| i[1] == @audio_type }[0][0] }
+h4 День: #{ @days.select {|i| i[1] == @day }[0][0] }
+h4 Час: #{ @hours.select {|i| i[1] == @hour }[0][0] }
+
+= form_tag(music_upload_path, :multipart => true, :id => "fileupload", :"data-list-path" => music_list_path)  do
+  = hidden_field_tag :audio_type, @audio_type
+  = hidden_field_tag :day, @day
+  = hidden_field_tag :hour, @hour
+
+  .row.fileupload-buttonbar
+    .span7
+      span.btn.btn-success.fileinput-button
+        i.icon-plus.icon-white
+        span Добавить файлы
+        = file_field_tag :upload, :multiple => true
+      button.btn.btn-primary.start type="submit"
+        i.icon-plus.icon-white
+        span Начать закачку
+      button.btn.btn-warning.cancel type="button"
+        i.icon-ban-circle.icon-white
+        span Отменить закачку
+      button.btn.btn-danger.delete type="button"
+        i.icon-trash.icon-white
+        span Удалить
+      input.toggle type="checkbox"
+
+    .span5
+      .progress.progress-success.progress-striped.active.fade
+        .bar style="width:0%"
+
+  .fileupload-loading
+  br
+
+  table.table.table-striped
+    tbody.files
+
+
+script
+  |  var fileUploadErrors = {
+        maxFileSize: 'Файл слишком большой',
+        minFileSize: 'Файл слишком маленький',
+        acceptFileTypes: 'Тип файла не допустим',
+        maxNumberOfFiles: 'Слишком большое количество файлов',
+        uploadedBytes: 'Uploaded bytes exceed file size',
+        emptyResult: 'Empty file upload result'
+     };
+
+script#template-upload type="text/x-tmpl"
+  | {% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="template-upload fade">
+      <td class="name"><span>{%=file.name%}</span></td>
+      <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+      {% if (file.error) { %}
+      <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
+      {% } else if (o.files.valid && !i) { %}
+      <td>
+        <div class="progress progress-success progress-striped active"><div class="bar" style="width:0%;"></div></div>
+      </td>
+      <td class="start">{% if (!o.options.autoUpload) { %}
+        <button class="btn btn-primary">
+          <i class="icon-upload icon-white"></i>
+          <span>Загрузить</span>
+        </button>
+        {% } %}</td>
+      {% } else { %}
+      <td colspan="2"></td>
+      {% } %}
+      <td class="cancel">{% if (!i) { %}
+        <button class="btn btn-warning">
+          <i class="icon-ban-circle icon-white"></i>
+          <span>Отмена</span>
+        </button>
+        {% } %}</td>
+    </tr>
+    {% } %}
+
+script#template-download type="text/x-tmpl"
+  |  {% for (var i=0, file; file=o.files[i]; i++) { %}
+      <tr class="template-download fade">
+        {% if (file.error) { %}
+          <td class="name"><span>{%=file.name%}</span></td>
+          <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+          <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
+          {% } else { %}
+          <td class="name">
+            {%=file.name%}
+          </td>
+          <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+          /<td colspan="2"></td>
+          {% } %}
+        <td class="delete">
+          <button class="btn btn-danger" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">
+            <i class="icon-trash icon-white"></i>
+            <span>Удалить</span>
+          </button>
+          <input type="checkbox" name="delete" value="1">
+        </td>
+      </tr>
+      {% } %}
+
+script
+  |
+    $(function () {
+      // Initialize the jQuery File Upload widget:
+      $('#fileupload').fileupload();
+
+      // Load existing files:
+      $.getJSON($('#fileupload').prop('data-list-action'),{
+        audio_type: '#{ @audio_type }',
+        day: '#{ @day }',
+        hour: '#{ @hour }'
+      }, function (files) {
+        var fu = $('#fileupload').data('fileupload'),
+          template;
+        fu._adjustMaxNumberOfFiles(-files.length);
+        console.log(files);
+        template = fu._renderDownload(files)
+          .appendTo($('#fileupload .files'));
+        // Force reflow:
+        fu._reflow = fu._transition && template.length &&
+          template[0].offsetWidth;
+        template.addClass('in');
+        $('#loading').remove();
+      });
+
+    });

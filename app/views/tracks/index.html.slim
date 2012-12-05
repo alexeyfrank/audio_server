@@ -1,0 +1,20 @@
+h1 Управление аудио файлами
+
+= form_tag(music_list_path, :class => 'form-horizontal', :method => :get) do
+  /.control-group
+  /  = label_tag :audio_type, "Выберите тип аудио файлов:", :class => 'control-label'
+  /  .controls
+  /    = select_tag :audio_type, options_for_select(@audio_types, @audio_type), :class => 'span4'
+
+  .control-group
+    = label_tag :day, "Выберите день:", :class => 'control-label'
+    .controls
+      = select_tag :day , options_for_select(@days, @day), :class => 'span4'
+
+  .control-group
+    = label_tag :hour, "Выберите час:", :class => 'control-label'
+    .controls
+      = select_tag :hour , options_for_select(@hours, @hour), :class => 'span4'
+
+  .form-actions
+    = submit_tag 'Показать', :class => 'btn btn-primary'

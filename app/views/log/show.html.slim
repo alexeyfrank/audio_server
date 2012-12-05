@@ -1,0 +1,7 @@
+h3 Детальный просмотр записей о магазине
+
+h4 = @log.address
+h4 Дата последнего обновления: #{ @log.date }
+
+- @log.logs.each do |line|
+    p = line
